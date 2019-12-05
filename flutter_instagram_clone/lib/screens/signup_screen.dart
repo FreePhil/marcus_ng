@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_instagram_clone/services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
-  static final String id = 'sigup _screen';
+  static final String id = 'signup_screen';
 
   @override
   _SignupScreenState createState() => _SignupScreenState();
@@ -33,7 +33,10 @@ class _SignupScreenState extends State<SignupScreen> {
             children: <Widget>[
               Text(
                 'Instagram',
-                style: TextStyle(fontFamily: 'Billabong', fontSize: 50.0),
+                style: TextStyle(
+                  fontFamily: 'Billabong',
+                  fontSize: 50.0,
+                ),
               ),
               Form(
                 key: _formKey,

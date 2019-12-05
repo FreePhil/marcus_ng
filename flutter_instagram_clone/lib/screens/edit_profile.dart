@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram_clone/models/user_model.dart';
+import 'package:flutter_instagram_clone/services/database_service.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final User user;
@@ -14,7 +15,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String _name = '';
   String _bio = '';
 
-  _submit() {}
+  initState() {
+    super.initState();
+    _name = widget.user.name;
+    _bio = widget.user.bio;
+  }
+
+  _submit() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      // Update user in database
+      String _profileImageUrl = '';
+      User user = User(
+        id: widget.user.id,
+        name: _name,
+        profileImageUrl: _profileImageUrl,
+        bio: _bio,
+      );
+      // Database update
+      DatabaseService.updateUser(user);
+
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       labelText: 'Bio',
                     ),
-                    validator: (input) => input.trim().length < 150
+                    validator: (input) => input.trim().length > 150
                         ? 'Please enter a bio less than 150 character'
                         : null,
                     onSaved: (input) => _bio = input,
@@ -80,7 +103,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     height: 40.0,
                     width: 250.0,
                     child: FlatButton(
-                      onPressed: () => _submit,
+                      onPressed: _submit,
                       color: Colors.blue,
                       textColor: Colors.white,
                       child: Text(
