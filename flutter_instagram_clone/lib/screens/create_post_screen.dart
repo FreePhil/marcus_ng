@@ -97,8 +97,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return croppedImage;
   }
 
-  _submit () async {
-    if (!_isLoading && _image != null && _caption.isNotEmpty){
+  _submit() async {
+    if (!_isLoading && _image != null && _caption.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
@@ -114,7 +114,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       );
       DatabaseService.createPost(post);
 
-
       // Reset Data
       _captionController.clear();
       setState(() {
@@ -123,7 +122,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         _isLoading = false;
       });
     }
-
   }
 
   @override
@@ -149,12 +147,21 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         ],
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus() ,
-              child: SingleChildScrollView(
-                child: Container(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Container(
             height: height,
             child: Column(
               children: <Widget>[
+                _isLoading
+                    ? Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: LinearProgressIndicator(
+                          backgroundColor: Colors.blue[200],
+                          valueColor: AlwaysStoppedAnimation(Colors.blue),
+                        ),
+                      )
+                    : SizedBox.shrink(),
                 GestureDetector(
                   onTap: _showSelectImageDialog,
                   child: Container(
@@ -176,7 +183,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 SizedBox(height: 20.0),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.0),
-                  child: TextField(             
+                  child: TextField(
                     controller: _captionController,
                     style: TextStyle(fontSize: 18.0),
                     decoration: InputDecoration(
