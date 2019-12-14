@@ -7,7 +7,6 @@ import 'package:flutter_instagram_clone/screens/login_screen.dart';
 import 'package:flutter_instagram_clone/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
-        Provider.of<UserData>(context).currentUserId = snapshot.data.uid;
+          Provider.of<UserData>(context).currentUserId = snapshot.data.uid;
           return HomeScreen();
         } else {
           return LoginScreen();
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       builder: (context) => UserData(),
-          child: MaterialApp(
+      child: MaterialApp(
         title: 'Instagram Clone',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
           SignupScreen.id: (context) => SignupScreen(),
           FeedScreen.id: (context) => FeedScreen(),
         },
-      ), 
+      ),
     );
   }
 }
