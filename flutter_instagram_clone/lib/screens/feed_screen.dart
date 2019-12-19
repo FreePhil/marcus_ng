@@ -47,10 +47,12 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
         ),
-        leading: IconButton(
-          onPressed: () => AuthService.logout(),
-          icon: Icon(Icons.person),
-        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: AuthService.logout,
+          ),
+        ],
       ),
       // backgroundColor: Colors.blue,
       body: RefreshIndicator(

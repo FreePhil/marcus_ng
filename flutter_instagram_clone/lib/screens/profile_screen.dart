@@ -4,6 +4,7 @@ import 'package:flutter_instagram_clone/models/post_model.dart';
 import 'package:flutter_instagram_clone/models/user_data.dart';
 import 'package:flutter_instagram_clone/models/user_model.dart';
 import 'package:flutter_instagram_clone/screens/edit_profile.dart';
+import 'package:flutter_instagram_clone/services/auth_service.dart';
 import 'package:flutter_instagram_clone/services/database_service.dart';
 import 'package:flutter_instagram_clone/utilities/constants.dart';
 import 'package:flutter_instagram_clone/widgets/post_view.dart';
@@ -87,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _unfollowUser() {
     DatabaseService.unfollowUser(
-      currentUserID: widget.currentUserId,
+      currentUserId: widget.currentUserId,
       userId: widget.userId,
     );
     setState(() {
@@ -98,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _followUser() {
     DatabaseService.followUser(
-      currentUserID: widget.currentUserId,
+      currentUserId: widget.currentUserId,
       userId: widget.userId,
     );
     setState(() {
@@ -325,6 +326,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: AuthService.logout,
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder(

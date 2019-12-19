@@ -27,55 +27,58 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   _iosBottomSheet() {
-    print('ios');
     showCupertinoModalPopup(
-        context: context,
-        builder: (BuildContext context) {
-          return CupertinoActionSheet(
-            title: Text('Add Photo'),
-            actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: Text('Take Photo'),
-                onPressed: () => _handleImage(ImageSource.camera),
-              ),
-              CupertinoActionSheetAction(
-                child: Text('Choose from gallery'),
-                onPressed: () => _handleImage(ImageSource.gallery),
-              ),
-            ],
-            cancelButton: CupertinoActionSheetAction(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.pop(context),
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: Text('Add Photo'),
+          actions: <Widget>[
+            CupertinoActionSheetAction(
+              child: Text('Take Photo'),
+              onPressed: () => _handleImage(ImageSource.camera),
             ),
-          );
-        });
+            CupertinoActionSheetAction(
+              child: Text('Choose From Gallery'),
+              onPressed: () => _handleImage(ImageSource.gallery),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        );
+      },
+    );
   }
 
   _androidDialog() {
     showDialog(
-        context: context,
-        builder: (BuildContext contex) {
-          return SimpleDialog(
-            title: Text('Add Photo'),
-            children: <Widget>[
-              SimpleDialogOption(
-                child: Text('Take Photo'),
-                onPressed: () => _handleImage(ImageSource.camera),
-              ),
-              SimpleDialogOption(
-                child: Text('Choose From Gallery'),
-                onPressed: () => _handleImage(ImageSource.gallery),
-              ),
-              SimpleDialogOption(
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(color: Colors.redAccent),
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text('Add Photo'),
+          children: <Widget>[
+            SimpleDialogOption(
+              child: Text('Take Photo'),
+              onPressed: () => _handleImage(ImageSource.camera),
+            ),
+            SimpleDialogOption(
+              child: Text('Choose From Gallery'),
+              onPressed: () => _handleImage(ImageSource.gallery),
+            ),
+            SimpleDialogOption(
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.redAccent,
                 ),
-                onPressed: () => Navigator.pop(contex),
-              )
-            ],
-          );
-        });
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   _handleImage(ImageSource source) async {
@@ -103,19 +106,20 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         _isLoading = true;
       });
 
-      // Create Post
-      String imageUrl = await StorageServices.uploadPost(_image);
+      // Create post
+      String imageUrl = await StorageService.uploadPost(_image);
       Post post = Post(
         imageUrl: imageUrl,
         caption: _caption,
-        likes: {},
+        likeCount: 0,
         authorId: Provider.of<UserData>(context).currentUserId,
         timestamp: Timestamp.fromDate(DateTime.now()),
       );
       DatabaseService.createPost(post);
 
-      // Reset Data
+      // Reset data
       _captionController.clear();
+
       setState(() {
         _caption = '';
         _image = null;
@@ -131,12 +135,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Center(
-          child: Text(
-            'Create Post',
-            style: TextStyle(
-              color: Colors.black,
-            ),
+        title: Text(
+          'Create Post',
+          style: TextStyle(
+            color: Colors.black,
           ),
         ),
         actions: <Widget>[
@@ -191,7 +193,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     ),
                     onChanged: (input) => _caption = input,
                   ),
-                )
+                ),
               ],
             ),
           ),

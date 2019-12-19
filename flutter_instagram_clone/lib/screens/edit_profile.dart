@@ -53,7 +53,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       return FileImage(_profileImage);
     }
   }
- 
+
   _submit() async {
     if (_formKey.currentState.validate() && !_isLoading) {
       _formKey.currentState.save();
@@ -68,7 +68,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (_profileImage == null) {
         _profileImageUrl = widget.user.profileImageUrl;
       } else {
-        _profileImageUrl = await StorageServices.uploadUserProfileImage(
+        _profileImageUrl = await StorageService.uploadUserProfileImage(
           widget.user.profileImageUrl,
           _profileImage,
         );
